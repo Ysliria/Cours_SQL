@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<html lang="fr" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../styles/prism.css">
+    <title>SQL - Introduction - Historique</title>
+</head>
+
+<body>
+<main class="container">
+    <h1 class="display-1">Historique</h1>
+
+    <hr>
+
+    <section class="mt-5">
+        <h2 class="text-muted">Né en 1970, standardisé en 1987</h2>
+
+        <p class="mt-3">
+            En juin 1970, Edgar Frank Codd publia l'article "A Relational Model of Data for Large Shared Data Banks" (« Un référentiel de données relationnel pour de grandes banques de données partagées »).
+            Ce référentiel relationnel a été rapidement reconnu comme un modèle théorique intéressant, pour l'interrogation des bases de données, et a inspiré le développement du langage Structured English QUEry Language (SEQUEL) (« langage d'interrogation structuré en anglais »), renommé ultérieurement SQL pour cause de conflit de marque déposée.
+        </p>
+
+        <p class="mt-3">
+            Développée chez IBM en 1970 par Donald Chamberlin et Raymond Boyce, cette première version a été conçue pour manipuler et éditer des données stockées dans la base de données relationnelle à l'aide du système de gestion de base de données IBM System R.
+            Le nom SEQUEL, qui était déposé commercialement par l'avionneur Hawker Siddeley pour un système d'acquisition de données, a été abandonné et contracté en SQL en 1975. SQL était censé alors devenir un élément clé du futur projet d'IBM.
+        </p>
+
+        <p class="mt-3">
+            En 1979, Relational Software, Inc. (actuellement Oracle Corporation) présenta la première version commercialement disponible de SQL, rapidement imité par d'autres fournisseurs.
+            SQL a été adopté comme recommandation par l'Institut de normalisation américaine (ANSI) en 1986, puis comme norme internationale par l'ISO en 1987 sous le nom de ISO/CEI 9075 - Technologies de l'information - Langages de base de données - SQL.
+        </p>
+
+        <p class="mt-3">
+            La norme internationale SQL est passée par un certain nombre de révisions :
+        </p>
+
+        <table class="table table-primary table-striped">
+            <thead>
+            <tr>
+                <th>Année</th>
+                <th>Nom</th>
+                <th>Appellation</th>
+                <th>Commentaires</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+                <th>1986</th>
+                <td>ISO/CEI 9075:1986</td>
+                <td>SQL-86 ou SQL-87</td>
+                <td>Édité par l'ANSI puis adopté par l'ISO en 1987.</td>
+            </tr>
+            <tr>
+                <th>1989</th>
+                <td>ISO/CEI 9075:1989</td>
+                <td>SQL-89 ou SQL-1</td>
+                <td>Révision mineure.</td>
+            </tr>
+            <tr>
+                <th>1992</th>
+                <td>ISO/CEI 9075:1992</td>
+                <td>SQL-92 (en) alias SQL2</td>
+                <td>Révision majeure.</td>
+            </tr>
+            <tr>
+                <th>1999</th>
+                <td>ISO/CEI 9075:1999</td>
+                <td>SQL-99 (en) alias SQL3	E</td>
+                <td>Expressions rationnelles, requêtes récursives, déclencheurs, types non-scalaires et quelques fonctions orientées objet (les deux derniers points sont quelque peu controversés et pas encore largement implémentés).</td>
+            </tr>
+            <tr>
+                <th>2003</th>
+                <td>ISO/CEI 9075:2003</td>
+                <td>SQL:2003 (en)</td>
+                <td>Introduction de fonctions pour la manipulation XML, « window functions », ordres standardisés et colonnes avec valeurs auto-produites (y compris colonnes d'identité).</td>
+            </tr>
+            <tr>
+                <th>2008</th>
+                <td>ISO/CEI 9075:2008</td>
+                <td>SQL:2008 (en)</td>
+                <td>Ajout de quelques fonctions de fenêtrage (ntile, lead, lag, first value, last value, nth value), limitation du nombre de lignes (OFFSET / FETCH), amélioration mineure sur les types distincts, curseurs et mécanismes d'auto-incrémentation.</td>
+            </tr>
+            <tr>
+                <th>2011</th>
+                <td>ISO/CEI 9075:2011</td>
+                <td>SQL:2011 (en)</td>
+                <td>Ajout du support des tables temporelles (historisation automatique).</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <hr>
+
+    <section class="mt-5">
+        <h2 class="text-muted">MySQL</h2>
+
+        <p class="mt-3">
+            MySQL est donc un Système de Gestion de Bases de Données Relationnelles qui utilise le langage SQL.
+            Sa popularité est due en grande partie au fait qu'il s'agit d'un logiciel open source, ce qui signifie que son code source est librement disponible et que quiconque en ressent l'envie et/ou le besoin peut modifier MySQL pour l'améliorer ou l'adapter à ses besoins.
+        </p>
+
+        <p class="mt-3">
+            Le développement de MySQL commence en 1994 par David Axmark et Michael Widenius.
+            En 1995, la société MySQL AB est fondée par ces deux développeurs, et Allan Larsson.
+            C'est la même année que sort la première version officielle de MySQL.
+        </p>
+
+        <p class="mt-3">
+            En 2008, MySQL AB est rachetée par la société Sun Microsystems, qui est elle-même rachetée par Oracle Corporation en 2010.
+            On craint alors la fin de la gratuité de MySQL, étant donné qu'Oracle Corporation édite un des grands concurrents de MySQL : Oracle Database, qui est payant (et très cher).
+            Oracle promit cependant de continuer à développer MySQL et de conserver la double licence GPL (libre) et commerciale jusqu'en 2015 au moins. À ce jour, les deux licences existent toujours.
+        </p>
+
+        <p class="alert alert-info">
+            <strong>Parce que c'est inutile !</strong> La mascotte de MySQL s'appelle <strong>SAKILA</strong>.
+        </p>
+    </section>
+
+    <hr>
+
+    <section class="mt-5">
+        <h2 class="text-muted">D'autres SGBDR</h2>
+
+        <ul>
+            <li><strong>MariaDB</strong> : suite à l'annonce du rachat par Orracle, Michael Widenius, fondateur de MySQL, quitte cette société pour lancer le projet MariaDB, dans une démarche visant à remplacer MySQL tout en assurant l’interopérabilité. C'est un fork de MySQL, mais attention aux différences grandissantes.</li>
+            <li><strong>PostgreSQL</strong> : de plus en plus prisé, il est notament préconisé par beaucoup sur les projets avec Symfony. Il remplace petit à petit MySQL sur certains projets.</li>
+            <li><strong>SQLite</strong> : il n'utilise pas le modèle client/serveur, mais stocke tout dans des fichiers. Performant sur les petits volumes de données (cf: vos applications mobiles).</li>
+            <li><strong>SQL Server</strong> : le SGBDR de Microsoft.</li>
+            <li><strong>etc ...</strong></li>
+        </ul>
+
+        <p class="alert alert-info">
+            <strong>Parce que c'est inutile !</strong> La première fille de Michael Widenius s'appelle <strong>My</strong>, sa seconde s'appelle <strong>Maria</strong>.
+        </p>
+    </section>
+
+    <div class="row mt-5 mb-5">
+        <a href="1_presentation.html" class="btn btn-outline-secondary col-auto mr-auto">Précédent</a>
+        <a href="3_installation.html" class="btn btn-outline-primary col-auto">Suivant</a>
+    </div>
+</main>
+
+<script src="../../scripts/prism.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
+</body>
+</html>

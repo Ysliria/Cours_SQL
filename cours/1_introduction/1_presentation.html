@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html lang="fr" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../styles/prism.css">
+    <title>SQL - Introduction - Présentation</title>
+</head>
+
+<body>
+<main class="container">
+    <h1 class="display-1">Présentation</h1>
+
+    <hr>
+
+    <section class="mt-5">
+        <h2 class="text-muted">Le SQL</h2>
+
+        <p class="mt-3">
+            Le SQL (Structured Query Language) est un langage permettant de communiquer avec une base de données.
+            Ce langage est notamment utilisé pour communiquer avec les données d’un site web.
+            C'est le langage pour base de données le plus répandu.
+        </p>
+
+        <p class="alert alert-danger">
+            <strong>Attention</strong> : Il ne faut pas confondre le langage SQL et le SGBDR MySQL !
+        </p>
+    </section>
+
+    <hr>
+    
+    <section class="mt-5">
+        <h2 class="text-muted">La base de donnnées</h2>
+    
+        <p class="mt-3">
+            Une base de données informatique est un ensemble de données qui ont été stockées sur un support informatique, organisées et structurées de manière à pouvoir facilement consulter et modifier leur contenu.
+            Le SQL nou permettra de gérer et interagir avec cette base ; afin de pouvoir ajouter, modifier, supprimer ou tout simplement afficher des éléments de la base.
+            <br>
+            Une base de données seule ne suffit donc pas, il est nécessaire d'avoir également :
+        </p>
+
+        <ul>
+            <li>un système permettant de gérer cette base (le SQL),</li>
+            <li>un langage pour transmettre des instructions à la base de données (par l'intermédiaire du système de gestion).</li>
+        </ul>
+    </section>
+
+    <hr>
+    
+    <section class="mt-5">
+        <h2 class="text-muted">SGBDR</h2>
+    
+        <p class="mt-3">
+            Un Système de Gestion de Base de Données (SGBD) est un logiciel (ou un ensemble de logiciels) permettant de manipuler les données d'une base de données, c'est-à-dire sélectionner et afficher des informations tirées de cette base, modifier des données, en ajouter ou en supprimer (ce groupe de quatre opérations étant souvent appelé "CRUD", pour Create, Read, Update, Delete).
+            MySQL est un système de gestion de bases de données.
+        </p>
+
+        <p class="mt-3">
+            Le R de SGBDR signifie "relationnel". Un SGBDR est un SGBD qui implémente la théorie relationnelle. MySQL implémente la théorie relationnelle ; c'est donc un SGBDR.
+            <br>
+            Nous verrons les relations plus tard dans le cours !
+        </p>
+
+        <div class="text-center">
+            <figure class="figure">
+                <img src="../../images/sgbdr.png" class="img-fluid rounded" alt="représentation sgbdr">
+                <figcaption class="figure-caption text-right">Représentation d'un SGBDR</figcaption>
+            </figure>
+        </div>
+    </section>
+
+    <div class="row mt-5 mb-5">
+        <div class="col-auto mr-auto"></div>
+        <a href="2_historique.html" class="btn btn-outline-primary col-auto">Suivant</a>
+    </div>
+</main>
+
+<script src="../../scripts/prism.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
+</body>
+</html>
