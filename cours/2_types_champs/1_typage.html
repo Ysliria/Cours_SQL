@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<html lang="fr" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../styles/prism.css">
+    <title>SQL - Les types de champs - Le typage</title>
+</head>
+
+<body>
+<main class="container">
+    <h1 class="display-1">Le Typage</h1>
+
+    <hr>
+
+    <section class="mt-5">
+        <h2 class="text-muted">Pourquoi le typage ?</h2>
+
+        <p class="mt-3">
+            Une base de données (BDD) peut être comparée à un fichier Excel. Elle comporte des tables comme un fichier Excel contient des feuilles, qui sont composés de colonnes aussi appelés champs.
+            <br>
+            Ces champs pourront stocker différents types d'informations et, comme dans Excel on déterminerait le format (type) de la cellule, on peut déterminer le type de champs en fonction des informations que l'on souhaite stocker.
+            Plus que pouvoir, on <strong>DOIT</strong> déterminer le type des champs d'une table de base de données.
+        </p>
+
+        <p class="mt-3">
+            Le typage est important pour plusieurs raisons :
+        </p>
+
+        <ul>
+            <li>Eviter un gaspillage de mémoire (ex. : si vous stockez de toutes petites données dans une colonne faite pour stocker de grosses quantités de données)</li>
+            <li>Limiter les problèmes de performance (ex. : il est plus rapide de faire une recherche sur un nombre que sur une chaîne de caractères)</li>
+            <li>Empécher un comportement contraire à celui attendu (ex. : trier sur un nombre stocké comme tel, ou sur un nombre stocké comme une chaîne de caractères ne donnera pas le même résultat)</li>
+            <li>Permettre d'utiliser des fonctionnalités propres à un type de données (ex. : stocker une date comme une chaîne de caractères vous prive des nombreuses fonctions temporelles disponibles)</li>
+        </ul>
+
+        <p class="alert alert-success">
+            Il est donc important de bien choisir le meilleur type possible !
+        </p>
+    </section>
+
+    <hr>
+
+    <section class="mt-5">
+        <h2 class="text-muted">Les différents types</h2>
+
+        <p class="mt-3">
+            On pourrait regrouper les types en grandes familles :
+        </p>
+
+        <div class="text-center">
+            <figure class="figure">
+                <img src="../../images/2_sql_types.png" class="img-fluid rounded" alt="types">
+                <figcaption class="figure-caption text-right">Différents types de données</figcaption>
+            </figure>
+        </div>
+    </section>
+
+    <div class="row mt-5 mb-5">
+        <a href="../1_introduction/3_installation.html" class="btn btn-outline-secondary col-auto mr-auto">Précédent</a>
+        <a href="2_numeriques.html" class="btn btn-outline-primary col-auto">Suivant</a>
+    </div>
+</main>
+
+<script src="../../scripts/prism.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
+</body>
+</html>
