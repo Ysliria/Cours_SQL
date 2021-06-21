@@ -16,13 +16,154 @@
     <hr>
 
     <section class="mt-5">
-        <h2 class="text-muted"></h2>
+        <h2 class="text-muted">5 types temporels</h2>
 
         <p class="mt-3">
-            DATE, TIME et DATETIME
-            YEAR
-            TIMESTAMP
+            Les données temporelles peuvent être typées de 5 manières différentes :
         </p>
+
+        <ul>
+            <li><strong>DATE</strong></li>
+            <li><strong>TIME</strong></li>
+            <li><strong>DATETIME</strong></li>
+            <li><strong>TIMESTAMP</strong></li>
+            <li><strong>YEAR</strong></li>
+        </ul>
+    </section>
+
+    <hr>
+
+    <section class="mt-5">
+        <h2 class="text-muted">Le type DATE</h2>
+
+        <p class="mt-3">
+         Le type <strong>DATE</strong> permet de définir une date qui respectera les contraintes suivantes :
+        </p>
+
+        <ul>
+            <li>L'ordre année, mois et jour doit être respecté</li>
+            <li>L'année peut être entrée sur 4 ou 2 digits</li>
+            <li>Le mois et le jour seront entrés sur 2 digits et pas moins !</li>
+            <li>La valeur doit être comprise entre <strong>1001-01-01</strong> et <strong>9999-12-31</strong></li>
+        </ul>
+
+        <p class="mt-3">
+         Ceci mis à part on peut utilisé le séparateur que l'on souhaite, voir pas de séparateur du tout.
+         C'est à dire qu'on peut aussi bien saisir <kbd>20210621</kbd> que <kbd>2021/06/21</kbd> ou encore <kbd>2021-06-21</kbd>.
+        </p>
+    </section>
+
+    <hr>
+
+    <section class="mt-5">
+        <h2 class="text-muted">Le type TIME</h2>
+
+        <p class="mt-3">
+            Le type <strong>TIME</strong> sert, comme son l'indique, sert à stocker un heure précise. Mais il peut aussi servir à stocker un interval de temps.
+            Nous ne somme donc pas limité à 24h !
+            <br>
+            Pour définir une heure ou un interval de temps, il nous faut respecter la syntaxe suivante : 
+        </p>
+
+        <ul>
+            <li>On commence par les heures, suivi des minutes et des secondes</li>
+            <li>Chaque partie sera séparé par des <kbd>:</kbd></li>
+            <li>Si on précse un nombre de jours, dans le cadre d'un intervalle, il sera le premier et sera séparé de l'heure par un espace : <kbd>J HH:MM:SS</kbd></li>
+            <li>La valeur d'interval doit être comprise entre <strong>-838:59:59</strong> et <strong>838:59:59</strong></li>
+        </ul>
+    </section>
+
+    <hr>
+    
+    <section class="mt-5">
+        <h2 class="text-muted">Le type DATETIME</h2>
+    
+        <p class="mt-3">
+            Il s'agit de la concaténation des 2 précédents.
+            Dans le type <strong>DATIME</strong> on stockera donc les dates et les heures en respectant les règles respectives des types <strong>DATE</strong> et <strong>TIME</strong>.
+            <br>
+            Les valeurs devront être comprises entre <strong>1001-01-01 00:00:00</strong> et <strong>9999-12-31 23:59:59</strong>.
+        </p>
+    </section>
+
+    <hr>
+    
+    <section class="mt-5">
+        <h2 class="text-muted">Le type YEAR</h2>
+    
+        <p class="mt-3">
+            L'intérêt du type <strong>YEAR</strong> réside dans la place qu'il prend en mémoire : 1 octet !
+            Cependant cet avantage est aussi son défaut ; il ne peut, sur 256 valeurs possibles, stocker que les années de <strong>1901</strong> à <strong>2155</strong>.
+            <br>
+            On peut saisir l'année sur 2 ou 4 digits. Dans le cas où l'on choisirait d'ommettre les 2 digits du siècle, ceux-ci seraient ajouté en respectant la règle suivante :
+        </p>
+
+        <ul>
+            <li>si l'année donnée est entre 00 et 69, on utilisera le XXIe siècle, on ira donc de 2000 à 2069</li>
+            <li>par contre, si l'année est comprise entre 70 et 99, on utilisera le XXe siècle, donc entre 1970 et 1999</li>
+        </ul>
+
+        <p class="mt-3">
+            A noter que cette règle est aussi valable pour les types <strong>DATE</strong> et <strong>DATETIME</strong>.
+        </p>
+    </section>
+
+    <hr>
+
+    <section class="mt-5">
+        <h2 class="text-muted">Le type TIMESTAMP</h2>
+
+        <p class="mt-3">
+            Par définition, le <strong>TIMESTAMP</strong> d'une date est le nombre de secondes écoulées depuis le 1er janvier 1970, 0 h 0 min 0 s et la date en question.
+            Les timestamps étant stockés sur 4 octets, il existe une limite supérieure : le 19 janvier 2038 à 03 h 14 min 07 s.
+            <br>
+            <a href="https://fr.wikipedia.org/wiki/Bug_de_l'an_2038">Le bug de l'an 2038 !</a>
+        </p>
+
+        <p class="mt-3">
+            Cepandant il faut faire très attention à une particularité dans MySQL !
+            <br>
+            Si je reprends la définition du TIMESTAMP, pour le <strong>4 octobre 2011, à 21 h 5 min 51 s</strong>, mon TIMESTAMP devrait être <strong>1 317 755 151</strong>.
+            Hors MySQL le stockera au format <strong>20111004210551</strong>, c'est à dire l'équivalent numérique du <strong>DATETIME '2011-10-04 21:05:51'</strong>.
+        </p>
+    </section>
+
+    <hr>
+    
+    <section class="mt-5">
+        <h2 class="text-muted">Exercices</h2>
+    
+        <p class="mt-3">
+            Pour les cas suivant, déterminé de type qu'il faudrait choisir :
+        </p>
+
+        <ol>
+            <li>Un millésime</li>
+            <li>Une date de naissance</li>
+            <li>Un pointage des heures de travail</li>
+            <li>Une date de commande</li>
+            <li>La durée d'une conférence</li>
+            <li>Les chronos d'un athlète</li>
+        </ol>
+
+        <p class="mt-3">
+            <a class="btn btn-primary" data-toggle="collapse" href="#correction" role="button" aria-expanded="false" aria-controls="correction">
+                Correction
+            </a>
+        </p>
+
+        <div class="collapse" id="correction">
+            <div class="card card-body">
+                <ol>
+                    <li>Un millésime : <strong>YEAR</strong></li>
+                    <li>Une date de naissance : <strong>DATETIME</strong>, l'heure de naissance est importante aussi !</li>
+                    <li>Un pointage des heures de travail : <strong>TIME</strong>, mais on peut aussi considérer qu'on souhaite stocker la date du pointage dons <strong>DATETIME</strong> serait mieux.</li>
+                    <li>Une date de commande : <strong>DATETIME</strong>, pour les commandes l'heure est aussi importante que la date.</li>
+                    <li>La durée d'une conférence : <strong>TIME</strong>.</li>
+                    <li>Les chronos d'un athlète : <strong>TIME</strong>.</li>
+                </ol>
+            </div>
+        </div>
     </section>
 
     <div class="row mt-5 mb-5">
