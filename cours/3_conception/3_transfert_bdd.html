@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+
+<html lang="fr" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../styles/prism.css">
+    <title>SQL - Conception - Tranférer le modèle à la BDD</title>
+</head>
+
+<body>
+<main class="container">
+    <h1 class="display-1">Tranférer le modèle à la BDD</h1>
+
+    <hr>
+
+    <section class="mt-5">
+        <h2 class="text-muted">De MySQL Workbench vers la BDD</h2>
+
+        <p class="mt-3">
+            Lorsque nous utilisons MySQL Workbench, nous pouvons communiquer avec la BDD et effectuer des opérations dessus.
+            Si nous avons créé un Modèle Conceptuel de Données (MCD), nous pouvons le transmettre à MySQL, pour qu'il nous créé la base correspondante.
+            <br>
+            Voici comment faire.
+        </p>
+
+        <ol>
+            <li>
+                Cliquez sur <strong>Database/Forward Engineer...</strong>
+                <div class="text-center">
+                    <figure class="figure">
+                        <img src="../../images/11_sql_workbench_forward.PNG" class="img-fluid rounded" alt="worbench forward">
+                        <figcaption class="figure-caption text-right">Trasnférer le modèle avec MySQL Workbench</figcaption>
+                    </figure>
+                </div>
+            </li>
+            <li>
+                Dans le <em>wizard</em> remplissez les informations concernant la connexion à votre BDD
+                <div class="text-center">
+                    <figure class="figure">
+                        <img src="../../images/12_sql_workbench_forward_step1.PNG" class="img-fluid rounded" alt="workbench forward wizard step 1">
+                        <figcaption class="figure-caption text-right">Première étape du transfert</figcaption>
+                    </figure>
+                </div>
+            </li>
+            <li>
+                Sélectionnez les options de création souhaitées
+                <div class="text-center">
+                    <figure class="figure">
+                        <img src="../../images/13_sql_workbench_forward_step2.PNG" class="img-fluid rounded" alt="workbench forward wizard step 2">
+                        <figcaption class="figure-caption text-right">Seconde étape du transfert</figcaption>
+                    </figure>
+                </div>
+            </li>
+            <li>
+                Sélectionnez ce que vous souhiatez exporter vers votre BDD
+                <div class="text-center">
+                    <figure class="figure">
+                        <img src="../../images/14_sql_workbench_forward_step3.PNG" class="img-fluid rounded" alt="workbench forward wizard step 3">
+                        <figcaption class="figure-caption text-right">Troisième étape du transfert</figcaption>
+                    </figure>
+                </div>
+            </li>
+            <li>
+                MySQL Workbench vous propose de voir la requête qui sera éxecuter, ce qui vous permettra de la contrôler.
+                <div class="text-center">
+                    <figure class="figure">
+                        <img src="../../images/15_sql_workbench_forward_step4.PNG" class="img-fluid rounded" alt="workbench forward wizard step 4">
+                        <figcaption class="figure-caption text-right">Quatrième étape du transfert</figcaption>
+                    </figure>
+                </div>
+
+                On verra comment créer cette requête plus tard, mais voici à quoi elle ressemble :
+
+                <p class="mt-3">
+                    <a class="btn btn-primary" data-toggle="collapse" href="#correction" role="button" aria-expanded="false" aria-controls="correction">
+                        Requête SQL
+                    </a>
+                </p>
+
+                <div class="collapse" id="correction">
+                    <div class="card card-body">
+                        <pre class="line-numbers"><code class="language-sql">-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
+USE `mydb` ;
+
+-- -----------------------------------------------------
+-- Table `mydb`.`propriétaire`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`propriétaire` (
+`id` INT NOT NULL AUTO_INCREMENT,
+`nom` VARCHAR(105) NOT NULL,
+`prenom` VARCHAR(105) NOT NULL,
+`adresse` VARCHAR(255) NULL,
+`ville` VARCHAR(165) NULL,
+`code_postal` CHAR(5) NULL,
+PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`animal`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`animal` (
+`id` INT NOT NULL AUTO_INCREMENT,
+`nom` VARCHAR(20) NULL,
+`race` VARCHAR(45) NULL,
+`type` VARCHAR(45) NULL,
+PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`propriétaire_has_animal`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`propriétaire_has_animal` (
+`propriétaire_id` INT NOT NULL,
+`animal_id` INT NOT NULL,
+PRIMARY KEY (`propriétaire_id`, `animal_id`),
+INDEX `fk_propriétaire_has_animal_animal1_idx` (`animal_id` ASC),
+INDEX `fk_propriétaire_has_animal_propriétaire_idx` (`propriétaire_id` ASC),
+CONSTRAINT `fk_propriétaire_has_animal_propriétaire`
+FOREIGN KEY (`propriétaire_id`)
+REFERENCES `mydb`.`propriétaire` (`id`)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION,
+CONSTRAINT `fk_propriétaire_has_animal_animal1`
+FOREIGN KEY (`animal_id`)
+REFERENCES `mydb`.`animal` (`id`)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;</code></pre>
+                    </div>
+                </div>
+            </li>
+            <li>
+                Une fois terminé, vous pourrez constater le résultat dans PHPMyAdmin
+                <div class="text-center">
+                    <figure class="figure">
+                        <img src="../../images/16_sql_workbench_forward_reslut.PNG" class="img-fluid rounded" alt="resultat du transfert">
+                        <figcaption class="figure-caption text-right">Résultat du transfert dans PHPMyAdmin</figcaption>
+                    </figure>
+                </div>
+            </li>
+        </ol>
+    </section>
+
+    <hr>
+    
+    <section class="mt-5">
+        <h2 class="text-muted">De la BDD vers MySQL Workbench</h2>
+    
+        <p class="mt-3">
+            De la même manière que vous pouvez transférer un modèle vers votre BDD, vous pouvez effectuer la démarche inverse.
+            Cela peut s'avérer utile si vous arrivez sur un projet déjà bien avancé et que vous avez besoin d'analyser et de comprendre la BDD.
+            <br>
+            Pour se faire il vous faut, aller dans le même menu et choisir l'option de reverse : <strong>Database/Reverse Engineer ...</strong>.
+            Ensuite à vous de suivre le <em>wizard</em>.
+        </p>
+    </section>
+
+    <div class="row mt-5 mb-5">
+        <a href="2_merise.html" class="btn btn-outline-secondary col-auto mr-auto">Précédent</a>
+        <a href="#" class="btn btn-outline-primary col-auto">Suivant</a>
+    </div>
+</main>
+
+<script src="../../scripts/prism.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
+</body>
+</html>
