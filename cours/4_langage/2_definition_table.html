@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+<html lang="fr" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../styles/prism.css">
+    <title>SQL - Le langage - Définition d'une table</title>
+</head>
+
+<body>
+<main class="container">
+    <h1 class="display-1">Définition d'une table</h1>
+
+    <hr>
+
+    <section class="mt-5">
+        <h2 class="text-muted">Création d'une table</h2>
+
+        <p class="mt-3">
+            La création d'une table doit définir beaucoup plus d'éléments.
+            En effet, en plus du nom, on va devoir définir les champs qui la compose.
+            <br>
+            Si on prend par exemple une talbe qui va lister des titres de chansons, j'aurai au moins besoin du titre, et j'ajouterai un identifiant unique à chaque enregistrement.
+        </p>
+
+        <pre class="line-numbers"><code class="language-sql">CREATE TABLE IF NOT EXISTS `chanson` (
+    `id` INT NOT NULL,
+    `titre` VARCHAR(50) NOT NULL
+)
+ENGINE = InnoBD;</code></pre>
+
+        <p class="mt-3">
+            Si on décortique la requête, la ligne 1 nous permet de lancer la création de la table.
+            Ensuite on détermine les champs et leur type sur les lignes 2 et 3.
+            Puis on finit par choisir un moteur.
+            <br>
+            Le moteur de la table détermine sa façon de fonctionner.
+            Il en existe 2, MyISAM et InnoBD.
+        </p>
+
+        <ul>
+            <li>
+                <strong>MyISAM</strong> :
+                <ul class="alert alert-success">
+                    <li>Très rapide pour effectuer des requêtes SELECT ou INSERT</li>
+                    <li>Offre de bien meilleure performance lors d’une recherche sur des champs de textes (indexation FULL TEXT)</li>
+                    <li>Possibilité de verrouiller au niveau d’une table</li>
+                    <li>Plus souple au niveau de l’intégrité des données</li>
+                </ul>
+                <ul class="alert alert-danger">
+                    <li>Pas de transactions</li>
+                    <li>Pas de clés étrangères</li>
+                    <li>Plus difficile de récupérer après un crash car l’intégrité des données peut facilement être compromise</li>
+                </ul>
+            </li>
+            <li>
+                <strong>InnoBD</strong> :
+                <ul class="alert alert-success">
+                    <li>Gère les transactions (on le verra plus tard)</li>
+                    <li>Gère les clés étrangères et les contraintes d’intégrité</li>
+                    <li>Support de <a href="https://fr.wikipedia.org/wiki/Propri%C3%A9t%C3%A9s_ACID">ACID</a> pour s’assurer que tous les enregistrements sont réussi ou échoué. Risque d’erreur impossible, même lors d’une panne</li>
+                    <li>Système de récupération lors d’un crash grâce à un système de relecture des logs</li>
+                </ul>
+                <ul class="alert alert-danger">
+                    <li>Ne supporte pas l’indexation plein texte</li>
+                    <li>Moteur de stockage plus imposant. Il demande plus de ressources et est plus lent</li>
+                </ul>
+            </li>
+        </ul>
+
+        <p class="mt-3">
+            Comme nous allons travailler avec les clefs étrangères, nous privilégierons le moteur <strong>InnoBD</strong>.
+        </p>
+    </section>
+
+    <hr>
+
+    <section class="mt-5">
+        <h2 class="text-muted">Modification d'une table</h2>
+
+        <p class="mt-3">
+            Nous allons modifier cette table avec <strong>ALTER</strong>.
+            Nous en profiterons pour ajouter un champ et en modifier un autre.
+            <br>
+            La <a href="https://dev.mysql.com/doc/refman/5.7/en/alter-table.html">syntaxe</a> est assez similaire à ce qu'on a déjà fait :
+        </p>
+
+        <pre class="line-numbers"><code class="language-sql">ALTER TABLE `chanson`
+MODIFY `titre` VARCHAR(250);
+
+ALTER TABLE `chanson`
+ADD `chanteur` VARCHAR(250) NULL;
+</code></pre>
+
+        <p class="mt-3">
+            Ci-dessus, nous avons modifier le champs titre pour qu'il puisse être null et augmenter la taille à 250.
+            Sur la seconde requête, nous avons ajouter un champs chanteur pourvant être null et étant une chaine de caratères de taille 250.
+        </p>
+    </section>
+
+    <hr>
+
+    <section class="mt-5">
+        <h2 class="text-muted">Supprimer et vider une table</h2>
+
+        <p class="mt-3">
+            Sur une table nous pouvons soit la supprimer, soit ne supprimmer que ses données.
+            Pour la suppression, pas de difficultés c'est comme pour la base de données <kbd>DROP TABLE IF EXISTS `ma_table`;</kbd>.
+            <br>
+            Par contre pour la vider c'est un autre mot clef qu'il nous faut utiliser : <kbd>TRUNCATE TABLE `ma_table`;</kbd>.
+        </p>
+
+        <p class="mt-3 alert alert-danger">
+            <strong>ATTENTION !</strong> Cette manipulation est irréversible ! Soyez conscient de ce que vous faites !
+            A noter aussi que l'auto-incrément, dont parlera au prochain chapitre, sera réinitialisé avec le TRUNCATE.
+        </p>
+    </section>
+
+    <div class="row mt-5 mb-5">
+        <a href="1_definition_base.html" class="btn btn-outline-secondary col-auto mr-auto">Précédent</a>
+        <a href="#" class="btn btn-outline-primary col-auto">Suivant</a>
+    </div>
+</main>
+
+<script src="../../scripts/prism.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
+</body>
+</html>

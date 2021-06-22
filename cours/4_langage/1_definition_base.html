@@ -126,6 +126,24 @@
     <hr>
 
     <section class="mt-5">
+        <h2 class="text-muted">Moldification d'une base de données</h2>
+
+        <p class="mt-3">
+            On ne va pas supprimer et recréer une base à chaque fois que l'on souhaite effectuer une modification.
+            Pour cela il existe la fonction d'altération de la base de données avec le mot clef <strong>ALTER</strong>.
+            <br>
+            On pourrait par exemple reprendre l'exemple de l'ajout de l'encodage et y ajouter la collation.
+            Pour préciser, le <kbd>CHARATER SET</kbd> c'est l'encodage et le <kbd>COLLATE</kbd> ce sont les règles de comparaison (cf :
+            <a href="https://dev.mysql.com/doc/refman/5.7/en/charset-general.html">documentation</a>).
+        </p>
+
+        <pre class="line-numbers"><code class="language-sql">ALTER DATABASE ma_base
+DEFAULT CHARACTER SET = 'utf8' DEFAULT COLLATE 'utf8_general_ci';</code></pre>
+    </section>
+
+    <hr>
+
+    <section class="mt-5">
         <h2 class="text-muted">Suppression d'une base</h2>
 
         <p class="mt-3">
@@ -156,7 +174,7 @@
 
     <div class="row mt-5 mb-5">
         <a href="../3_conception/3_transfert_bdd.html" class="btn btn-outline-secondary col-auto mr-auto">Précédent</a>
-        <a href="#" class="btn btn-outline-primary col-auto">Suivant</a>
+        <a href="2_definition_table.html" class="btn btn-outline-primary col-auto">Suivant</a>
     </div>
 </main>
 
