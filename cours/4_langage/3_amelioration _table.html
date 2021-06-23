@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+
+<html lang="fr" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../styles/prism.css">
+    <title>SQL - Le langage - Améliorer mes tables</title>
+</head>
+
+<body>
+<main class="container">
+    <h1 class="display-1">Améliorer mes tables</h1>
+
+    <hr>
+
+    <section class="mt-5">
+        <h2 class="text-muted">Les index</h2>
+
+        <p class="mt-3">
+            Un index est une structure qui reprend la liste ordonnée des valeurs auxquelles il se rapporte.
+            Les index sont utilisés pour accélérer les requêtes (notamment les requêtes impliquant plusieurs tables, ou les requêtes de recherche), et sont indispensables à la création de clés, étrangères et primaires, qui permettent de garantir l'intégrité des données de la base et dont nous parlerons ultérieurement.
+            <br>
+            Lorsque vous créez un index sur une table, MySQL stocke cet index sous forme d'une structure particulière, contenant les valeurs des colonnes indexées.
+        </p>
+
+        <ul>
+            <li>
+                <strong>Intérêts</strong> :
+                <ul class="alert alert-success">
+                    <li>Accélérer les requêtes : donc si on fait beaucoup de requêtes sur une colonne en particulier, il peut être bon de l'indexer.</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Désavantages</strong> :
+                <ul class="alert alert-danger">
+                    <li>Ils prennent de la place en mémoire.</li>
+                    <li>Il ralentissent les requêtes d'insertion et de suppression ; donc attention à ne pas en mettre de trop.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <p class="mt-3">
+            On peut avoir un index sur une seule colonne mais on peut aussi en avoir sur plusieurs colonnes.
+            Il existe plusieurs types d'index, mais voyons déjà l'indes <strong>UNIQUE</strong>.
+            <br>
+            L'index UNIQUE impose une contrainte à la ou les colonnes sur la(es)quelle(s) il est ajouté : la contrainte d'unicité.
+            On lui dit clairement que cette colonne ne pourra avoir qu'une seule fois chaque valeur ou combinaison de valeurs si l'index eest sur plusieurs colonnes.
+        </p>
+
+        <p class="mt-3">
+            Pour créer un index simple on peut utiliser le mot clef <strong>KEY</strong> (dans la déclaration du champs) ou <strong>INDEX</strong> (si on le déclare à la fin de la déclaration de la table).
+            Pour un index unique on utilisera le mot clef <strong>UNIQUE</strong>.
+            <br>
+            Pour ajouter un index a une table existante, on choisira la commande <strong>ALTER</strong>.
+        </p>
+
+        <p class="mt-3 alert alert-warning">
+            Si on ajouter un index sur une colonne de type CHAR ou VARCHAR, chaque caratère sera indéxé.
+            Pour éviter les problèmes des ressources il est bon de définir un nombre limite de caractère à indéxer !
+        </p>
+
+        <pre class="line-numbers"><code class="language-sql">-- Création
+CREATE TABLE IF NOT EXISTS `ma_table` (
+    `id` INT NOT NULL,
+    `titre` VARCHAR(255) KEY
+);
+-- ou
+CREATE TABLE IF NOT EXISTS `ma_table` (
+    `id` INT NOT NULL,
+    `titre` VARCHAR(255),
+    INDEX `idx_titre` (titre(10))
+);
+
+-- Ajout
+ALTER TABLE `ma_table`
+ADD INDEX `idx_titre` (titre(10));
+        </code></pre>
+    </section>
+
+    <hr>
+
+    <section class="mt-5">
+        <h2 class="text-muted">La clef primaire</h2>
+
+        <p class="mt-3">
+            La clé primaire d'une table est une contrainte d'unicité, composée d'une ou plusieurs colonnes, et qui permet d'identifier de manière unique chaque ligne de la table.
+            Elle est donc une clef UNIQUE et est souvent attribuée à la colonne ID.
+            <br>
+            Pour la déclarer, il faut utiliser le mot clef <strong>PRIMARY KEY</strong>.
+            L'utilisation du mot KEY vous indique qu'il s'agit de facto d'un index.
+            La clef primaire a pour autres contraintes, le fait d'être NOT NULL et UNIQUE.
+            <br>
+            Voici comment la créer et l'ajouter :
+        </p>
+
+        <pre class="line-numbers"><code class="language-sql">-- Création
+CREATE TABLE IF NOT EXISTS `ma_table` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `titre` VARCHAR(255) KEY
+);
+-- ou
+CREATE TABLE IF NOT EXISTS `ma_table` (
+    `id` INT AUTO_INCREMENT,
+    `titre` VARCHAR(255),
+    PRIMARY KEY (`id`)
+);
+
+-- Ajout
+ALTER TABLE `ma_table`
+ADD PRIMARY KEY (`id`);
+        </code></pre>
+    </section>
+
+    <hr>
+
+    <section class="mt-5">
+        <h2 class="text-muted">L'auto-incrément</h2>
+
+        <p class="mt-3">
+            Notez que l'on a introduit dans l'exemple précédent, un nouveau mot clef : <strong>AUTO_INCREMENT</strong>.
+            <br>
+            L'auto-incrément est utilisée dans le langage SQL afin de spécifier qu’une colonne numérique avec une clé primaire (PRIMARY KEY) sera incrémentée automatiquement à chaque ajout d’enregistrement dans celle-ci.
+            Cette colonne étant remplie de façon automatique, cela nous assure de facto qu'elle remplira la contrainte d'unicité.
+        </p>
+    </section>
+
+    <div class="row mt-5 mb-5">
+        <a href="2_definition_table.html" class="btn btn-outline-secondary col-auto mr-auto">Précédent</a>
+        <a href="#" class="btn btn-outline-primary col-auto">Suivant</a>
+    </div>
+</main>
+
+<script src="../../scripts/prism.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
+</body>
+</html>
