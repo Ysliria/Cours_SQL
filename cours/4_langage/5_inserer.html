@@ -70,15 +70,482 @@ INSERT INTO `ma_table` (`titre`)
     SET `id`=1, `titre`='Mon titre';</code></pre>
             </li>
         </ol>
+    </section>
+
+    <hr>
+
+    <section class="mt-5">
+        <h2 class="text-muted">Données externes</h2>
 
         <p class="mt-3">
-            <!--insertion de données externes-->
+            On peut insérer ds données en utilisant un fichier externe au format SQL.
+            Dans ce cas on va utiliser la commande SQL <strong>SOURCE</strong>, en lui spécifiant l'emplacement du fichier.
+            S'il l'emplacement n'est pas stipulé, la commande s'exécutera dans le répertoire d'où l'excutable SQL a été lancé.
+            <br>
+            Je vais récupérer des données générées aléatoirement sur un site dédié, comme par exemple <a href="https://www.mockaroo.com/">Mockaroo</a>, et télécharger le fichier au format SQL pour l'intégrer dans ma base.
+            Voici la commande qui me permet d'aller chercher un fichier SQL dans mon répertoire de téléchargement sous Windows :
+        </p>
+
+        <pre class="line-numbers"><code class="language-sql">SOURCE C:/Users/auger/Downloads/une_table.sql;</code></pre>
+
+        <p class="mt-3 alert alert-warning">
+            <strong>ATTENTION</strong> : en fonction des environnements (Windows, MAC, Linux) il vous faudra changer les <kbd>/</kbd> du chemin d'accès par des <kbd>\</kbd>.
+        </p>
+
+        <p class="mt-3">
+            Le fichier est ni plus ni moins qu'une requête SQL, mais vous comprendrez aisément qu'il sera plus simple de l'exécuter à partir d'un fichier que de taper les requête une par une en ligne de commande.
+            De plus les modification seront aussi plus aisées dans un fichier dédié.
+        </p>
+    </section>
+
+    <hr>
+
+    <section class="mt-5">
+        <h2 class="text-muted">Les fichiers CSV</h2>
+
+        <p class="mt-3">
+            On peut aussi insérer des données à partir d'un fichier CSV.
+            Ceci est très utile et assez fréquent dans nos pratiques professionnelles.
+            En effet un client peut vous demander d'insérer la liste de ses utilisateurs qu'il avait dans un fichier Excel.
+            Ou encore liste de ses services.
+        </p>
+
+        <pre class="line-numbers"><code class="language-csv">"titre"
+"Living with the Fosters"
+"Red Riding Hood"
+"Barber, The"
+"Marquise of O, The (Marquise von O..., Die)"
+"Saraband"
+"Big Knife, The"
+"Decision at Sundown"
+"Don't Think About It (Non Pensarci)"
+"Guy Named Joe, A"
+"Sorority Boys"
+"Mr. Accident"
+"Revenge"
+"My Way to Olympia (Mein Weg nach Olympia)"
+"Endless Love"
+"Ambush (Mai fu)"
+"Carrie"
+"Game of Death"
+"Champ, The"
+"Who's the Caboose?"
+"Lover's Knot"
+"Psycho"
+"Raven, The"
+"Bill Hicks: Relentless"
+"Whitewash"
+"Talcum Powder"
+"Cinematographer Style"
+"That Day, on the Beach (Hai tan de yi tian)"
+"Winter Soldier"
+"Mr. Mom"</code></pre>
+
+        <p class="mt-3">
+            Pour faire ce traitement on utilise la commande <strong>LOAD DATA INFILE</strong> comme ceci :
+        </p>
+
+        <pre class="line-numbers"><code class="language-sql">LOAD DATA INFILE 'ma_table.csv'
+    INTO TABLE ma_table
+    FIELDS TERMINATED BY ','
+    LINES TERMINATED BY '\n' -- ou '\r\n' selon l'OS
+    IGNORE 1 LINES
+    (titre);</code></pre>
+
+        <p class="mt-3">
+            Je stipule le nom de mon fichier CSV, puis la table de destination, le caractère qui limite un champs et celui qui limite une ligne de mon CSV.
+            Je lui demande aussi d'ignorer la première ligne qui est l'entête de mon CSV et qui m'est inutile ; je veux pas qu'il m'ajoute cette ligne comme donnée en base.
+            Et je lui dis à quel champs correspondent mes entrées.
+        </p>
+    </section>
+
+    <hr>
+
+    <section class="mt-5">
+        <h2 class="text-muted">Le dump</h2>
+
+        <p class="mt-3">
+            Vous serez très certainement ammené à utiliser le <strong>DUMP</strong> dans MySQL.
+            C'est une commande très importante et très puissante de MySQL.
+            Je vous recommande de parcourir la <a href="https://dev.mysql.com/doc/refman/5.7/en/mysqldump.html">documentation</a> qui vous indiquera tout ce qu'on peut en faire.
+            Mais voici au moins la base de son utilisation.
+        </p>
+
+        <p class="mt-3">
+            Le dump est une commande qui sert à récupérer les données maus aussi la structure de la base de données ; il peut servir à effectuer des sauvegardes.
+            la commande est simple : <kbd>mysqldump -ulogin -p ma_base > mon_fichier.sql</kbd>.
+        </p>
+
+        <ul>
+            <li>Ici je demande à MySQL d'exécuter la commande <kbd>mysqldump</kbd>.</li>
+            <li>Je lui stipule mon login avec <kbd>-u</kbd> et le mot de passe avec <kbd>-p</kbd>. Sans rien derrière, il me demandera le mot de passe à l'exécution.</li>
+            <li>Je lui donne le nom de la base que je souhaite "dumper".</li>
+            <li>Enfin je lui indique le fichier sql dans lequel je souhaite que le dump dépose le script.Car oui c'est un script SQL qui est extrait de la BDD.</li>
+        </ul>
+
+        <p class="mt-3">
+            Voici un exemple pour faire un dump de la base de donnée d'une boutique en ligne : <kbd>λ mysqldump -uroot -p boutique > C:\Users\auger\Downloads\boutique.sql</kbd>.
+            Et voici le résultat :
+        </p>
+
+        <p class="mt-3">
+            <a class="btn btn-primary" data-toggle="collapse" href="#script" role="button" aria-expanded="false" aria-controls="script">
+                Script SQL
+            </a>
+        </p>
+
+        <div class="collapse" id="script">
+            <div class="card card-body">
+                <pre class="line-numbers"><code class="language-sql">-- MySQL dump 10.13  Distrib 5.7.24, for Win64 (x86_64)
+--
+-- Host: localhost    Database: boutique
+-- ------------------------------------------------------
+-- Server version	5.7.24
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `address`
+--
+
+DROP TABLE IF EXISTS `address`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `address` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `firstname` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lastname` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `company` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `postal` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `city` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `country` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_D4E6F81A76ED395` (`user_id`),
+  CONSTRAINT `FK_D4E6F81A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `address`
+--
+
+LOCK TABLES `address` WRITE;
+/*!40000 ALTER TABLE `address` DISABLE KEYS */;
+/*!40000 ALTER TABLE `address` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `carrier`
+--
+
+DROP TABLE IF EXISTS `carrier`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `carrier` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `price` double NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `carrier`
+--
+
+LOCK TABLES `carrier` WRITE;
+/*!40000 ALTER TABLE `carrier` DISABLE KEYS */;
+/*!40000 ALTER TABLE `carrier` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `category`
+--
+
+DROP TABLE IF EXISTS `category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `category` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `category`
+--
+
+LOCK TABLES `category` WRITE;
+/*!40000 ALTER TABLE `category` DISABLE KEYS */;
+/*!40000 ALTER TABLE `category` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `doctrine_migration_versions`
+--
+
+DROP TABLE IF EXISTS `doctrine_migration_versions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `doctrine_migration_versions` (
+  `version` varchar(191) COLLATE utf8_unicode_ci NOT NULL,
+  `executed_at` datetime DEFAULT NULL,
+  `execution_time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`version`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `doctrine_migration_versions`
+--
+
+LOCK TABLES `doctrine_migration_versions` WRITE;
+/*!40000 ALTER TABLE `doctrine_migration_versions` DISABLE KEYS */;
+INSERT INTO `doctrine_migration_versions` VALUES ('DoctrineMigrations\\Version20201222070036','2021-06-18 13:00:03',120),('DoctrineMigrations\\Version20201222072602','2021-06-18 13:00:03',115),('DoctrineMigrations\\Version20201227091203','2021-06-18 13:00:03',54),('DoctrineMigrations\\Version20201227092215','2021-06-18 13:00:03',185),('DoctrineMigrations\\Version20201230073154','2021-06-18 13:00:03',169),('DoctrineMigrations\\Version20201230093814','2021-06-18 13:00:03',53),('DoctrineMigrations\\Version20201230095025','2021-06-18 13:00:03',263),('DoctrineMigrations\\Version20201231072629','2021-06-18 13:00:04',63),('DoctrineMigrations\\Version20210106065624','2021-06-18 13:00:04',59),('DoctrineMigrations\\Version20210107064755','2021-06-18 13:00:04',69),('DoctrineMigrations\\Version20210114070252','2021-06-18 13:00:04',60),('DoctrineMigrations\\Version20210115064606','2021-06-18 13:00:04',59),('DoctrineMigrations\\Version20210115070936','2021-06-18 13:00:04',51),('DoctrineMigrations\\Version20210122064706','2021-06-18 13:00:04',142);
+/*!40000 ALTER TABLE `doctrine_migration_versions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `header`
+--
+
+DROP TABLE IF EXISTS `header`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `header` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `content` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `btn_title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `btn_url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `illustration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `header`
+--
+
+LOCK TABLES `header` WRITE;
+/*!40000 ALTER TABLE `header` DISABLE KEYS */;
+/*!40000 ALTER TABLE `header` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `order`
+--
+
+DROP TABLE IF EXISTS `order`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `order` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `carrier_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `carrier_price` double NOT NULL,
+  `delivery` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `reference` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `stripe_sessions_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `state` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_F5299398A76ED395` (`user_id`),
+  CONSTRAINT `FK_F5299398A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `order`
+--
+
+LOCK TABLES `order` WRITE;
+/*!40000 ALTER TABLE `order` DISABLE KEYS */;
+/*!40000 ALTER TABLE `order` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `order_details`
+--
+
+DROP TABLE IF EXISTS `order_details`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `order_details` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `my_order_id` int(11) NOT NULL,
+  `product` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `price` double NOT NULL,
+  `total` double NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_845CA2C1BFCDF877` (`my_order_id`),
+  CONSTRAINT `FK_845CA2C1BFCDF877` FOREIGN KEY (`my_order_id`) REFERENCES `order` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `order_details`
+--
+
+LOCK TABLES `order_details` WRITE;
+/*!40000 ALTER TABLE `order_details` DISABLE KEYS */;
+/*!40000 ALTER TABLE `order_details` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `product`
+--
+
+DROP TABLE IF EXISTS `product`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `product` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `category_id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `illustration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `subtitle` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `price` double NOT NULL,
+  `is_best` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_D34A04AD12469DE2` (`category_id`),
+  CONSTRAINT `FK_D34A04AD12469DE2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `product`
+--
+
+LOCK TABLES `product` WRITE;
+/*!40000 ALTER TABLE `product` DISABLE KEYS */;
+/*!40000 ALTER TABLE `product` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `reset_password`
+--
+
+DROP TABLE IF EXISTS `reset_password`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `reset_password` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_B9983CE5A76ED395` (`user_id`),
+  CONSTRAINT `FK_B9983CE5A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `reset_password`
+--
+
+LOCK TABLES `reset_password` WRITE;
+/*!40000 ALTER TABLE `reset_password` DISABLE KEYS */;
+/*!40000 ALTER TABLE `reset_password` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(180) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `roles` json NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `firstname` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lastname` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_8D93D649E7927C74` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user`
+--
+
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (3,'mauger@cefim.eu','[\"ROLE_ADMIN\"]','$argon2id$v=19$m=65536,t=4,p=1$6N1Ktt78oxqDg24mDl2wXg$+i30dbruov4KVY1rYuJgORmWEEGqbl/XyxONO92WeiM','Auger','Mickael'),(4,'test@test.test','[]','Test1234*','Test','TEST');
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2021-06-24  9:37:24</code></pre>
+            </div>
+        </div>
+
+        <p class="mt-3">
+            Si vous analysez le fichier, vous constaterez qu'il dispose de tous les scripts pour recréer les tables et insérer les données ; car tout l'intérêt du dump est de pouvoir le réutiliser pour recréer la base tel qu'elle était au moment du dump!
+            Comment faire ?
+            En utilisant le commande <strong>MySQL</strong> : <kbd>mysql -uroot -p boutique < C:\Users\auger\Downloads\boutique.sql</kbd>.
+        </p>
+
+        <ul>
+            <li>J'appelle la commande <kbd>mysql</kbd> et non plus mysqldump, car je ne fait pas un dump ici.</li>
+            <li>De nouveau je lui stipule mon login avec <kbd>-u</kbd> et le mot de passe avec <kbd>-p</kbd>.</li>
+            <li>Je lui dis dans quelle base je veux exécuter les scripts et quel fichier SQL détier les scripts</li>
+            <li class="alert alert-danger">Noter que le chevron entre la base et le fichier va du fichier vers la base et pas l'inverse comme dans le dump !</li>
+        </ul>
+    </section>
+
+    <hr>
+
+    <section class="mt-5">
+        <h2 class="text-muted">Exercice</h2>
+
+        <p class="mt-3">
+            Sur votre base de blog, insérez des données dans vos tables :
+        </p>
+
+        <ul>
+            <li>En chargeant des données à partir d'un fichier SQL avec <strong>SOURCE</strong> ou à partir d'un CSV avec <strong>LOAD DATA INFILE</strong></li>
+            <li>Ensuite en entrant quelques données avec une requête SQL manuellement.</li>
+            <li>Et pour finir faites un dump de votre base de données</li>
+        </ul>
+
+        <p class="mt-3">
+            N'oubliez pas qu'il existe des générateurs de données !
         </p>
     </section>
 
     <div class="row mt-5 mb-5">
-        <a href="#" class="btn btn-outline-secondary col-auto mr-auto">Précédent</a>
-        <a href="#" class="btn btn-outline-primary col-auto">Suivant</a>
+        <a href="4_exercices.html" class="btn btn-outline-secondary col-auto mr-auto">Précédent</a>
+        <a href="6_selectionner.html" class="btn btn-outline-primary col-auto">Suivant</a>
     </div>
 </main>
 
