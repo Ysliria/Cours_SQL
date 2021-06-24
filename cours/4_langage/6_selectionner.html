@@ -16,11 +16,436 @@
     <hr>
 
     <section class="mt-5">
-        <h2 class="text-muted"></h2>
+        <h2 class="text-muted">Le SELECT</h2>
 
         <p class="mt-3">
-
+            Dans le CRUD, le Read se fait en SQL avec le mot clef <strong>SELECT</strong>.
+            La requête SELECT permet de générer un affichage, si par exemple je fais :
         </p>
+
+        <pre class="bg-dark text-white"><code>
+    mysql> select 'toto';
+    +------+
+    | toto |
+    +------+
+    | toto |
+    +------+
+    1 row in set (0.00 sec)
+
+    mysql> select 2+3;
+    +-----+
+    | 2+3 |
+    +-----+
+    |   5 |
+    +-----+
+    1 row in set (0.00 sec)
+        </code></pre>
+
+        <p class="mt-3">
+            Dans le premier cas j'affiche bien la chaine passé après mon SELECT et dans le second cas le résultat de mon opération.
+        </p>
+
+        <p class="mt-3">
+            Mais le SELECT va aussi aller chercher ce qu'on lui demande.
+            Par exemple je veux tout selectionner dans ma table :
+        </p>
+
+        <pre class="bg-dark text-white"><code>
+    mysql> SELECT * FROM `une_table`;
+    +-----+----------------------------------------------------------------------+-----------------------+
+    | id  | titre                                                                | auteur                |
+    +-----+----------------------------------------------------------------------+-----------------------+
+    |   1 | Snakes and Earrings (Hebi ni piasu)                                  | Sile Bernath          |
+    |   2 | Bride Wars                                                           | Klarrisa Klainer      |
+    |   3 | Queen of Outer Space                                                 | Sallee Guly           |
+    |   4 | Ulzana's Raid                                                        | Mavra Speakman        |
+    |   5 | TT3D: Closer to the Edge                                             | Veriee Weston         |
+    |   6 | Philadelphia                                                         | Ive Andrysek          |
+    |   7 | Pitfall (Otoshiana)                                                  | Lanette Ruppeli       |
+    |   8 | Egyptian, The                                                        | Janeta Stiffell       |
+    |   9 | Caught                                                               | Vivyan Beardsley      |
+    |  10 | Whole Wide World, The                                                | Giulio Lind           |
+    |  11 | They Call Me Bruce? (a.k.a. A Fistful of Chopsticks)                 | Staci Rodgers         |
+    |  12 | Cameraman, The                                                       | Mohammed Takle        |
+    |  13 | Ballad of a Soldier (Ballada o soldate)                              | Sammie Groome         |
+    |  14 | Dream Lover                                                          | Elberta Beyn          |
+    |  15 | Itty Bitty Titty Committee                                           | Batsheva Paulazzi     |
+    |  16 | Mattei Affair, The (Il caso Mattei)                                  | Ruttger McKiernan     |
+    |  17 | Ten Tall Men                                                         | Bette-ann Downe       |
+    |  18 | Count Dracula (Nachts, wenn Dracula erwacht)                         | Lizbeth Flucker       |
+    |  19 | Black Mirror                                                         | Rodina McLardie       |
+    |  20 | Fat, Sick & Nearly Dead 2                                            | Byram Munford         |
+    |  21 | Nostalghia                                                           | Leland Sodor          |
+    |  22 | Wraith, The                                                          | Clemence Kentish      |
+    |  23 | Girl in the Park, The                                                | Rosanna Bownde        |
+    |  24 | Cleanflix                                                            | Matthieu Amer         |
+    |  25 | Pirates of the Caribbean: At World's End                             | Akim Doumerque        |
+    +-----+----------------------------------------------------------------------+-----------------------+
+    25 rows in set (0.00 sec)
+        </code></pre>
+
+        <p class="mt-3">
+            Si je souhaite seulement les titres :
+        </p>
+
+        <pre class="bg-dark text-white"><code>
+    mysql> SELECT `titre` FROM `une_table`;
+    +----------------------------------------------------------------------+
+    | titre                                                                |
+    +----------------------------------------------------------------------+
+    | Snakes and Earrings (Hebi ni piasu)                                  |
+    | Bride Wars                                                           |
+    | Queen of Outer Space                                                 |
+    | Ulzana's Raid                                                        |
+    | TT3D: Closer to the Edge                                             |
+    | Philadelphia                                                         |
+    | Pitfall (Otoshiana)                                                  |
+    | Egyptian, The                                                        |
+    | Caught                                                               |
+    | Whole Wide World, The                                                |
+    | They Call Me Bruce? (a.k.a. A Fistful of Chopsticks)                 |
+    | Cameraman, The                                                       |
+    | Ballad of a Soldier (Ballada o soldate)                              |
+    | Dream Lover                                                          |
+    | Itty Bitty Titty Committee                                           |
+    | Mattei Affair, The (Il caso Mattei)                                  |
+    | Ten Tall Men                                                         |
+    | Count Dracula (Nachts, wenn Dracula erwacht)                         |
+    | Black Mirror                                                         |
+    | Fat, Sick & Nearly Dead 2                                            |
+    | Nostalghia                                                           |
+    | Wraith, The                                                          |
+    | Girl in the Park, The                                                |
+    | Cleanflix                                                            |
+    | Pirates of the Caribbean: At World's End                             |
+    +----------------------------------------------------------------------+
+    25 rows in set (0.00 sec)
+        </code></pre>
+
+        <p class="mt-3">
+            Notez que la SELECT est suivi de ce que l'on souhaite afficher.
+            Si je souhaite tout afficher j'utilise le joker <kbd>*</kbd>.
+            Si je souhaite une liste précise de colonnes, je les liste en les séparant par des virgules.
+            <br>
+            Notez aussi qu'un nouveau mot clef fait son apparition, le <strong>FROM</strong>, qui nous aide à déterminer d'où on souhaite executer la requête : "Va me chercher la liste de 'titre' depuis la table 'ma_table' !"
+        </p>
+    </section>
+
+    <hr>
+    
+    <section class="mt-5">
+        <h2 class="text-muted">La clause de sélection</h2>
+    
+        <p class="mt-3">
+            On peut ajouter une clause de sélection qui limitera les resultats retournés.
+            Il s'agit de la clause <strong>WHERE</strong>.
+            <br>
+            Admettons je souhaite le(s) titre(s) lié(s) à l'auteur <em>Ruttger McKiernan</em> :
+        </p>
+
+        <pre class="bg-dark text-white"><code>
+    mysql> SELECT `titre`FROM `une_table` WHERE `auteur` = "Ruttger McKiernan";
+    +-------------------------------------+
+    | titre                               |
+    +-------------------------------------+
+    | Mattei Affair, The (Il caso Mattei) |
+    +-------------------------------------+
+    1 row in set (0.00 sec)
+        </code></pre>
+
+        <p class="mt-3">
+            Donc je construis ma requête de la manière que précédemment, mais j'y ajouter le mot clef WHERE et je lui demande que mon resultat doit correspondre à un auteur en particulier : "Donnes-moi les 'titre' pour lesquels l''auteur' est "Ruttger McKiernan"."
+        </p>
+
+        <p class="mt-3">
+            On utilise ici un opérateur de comparaison.
+            Il en existe 8 :
+        </p>
+
+        <table class="table table-primary table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Opérateur</th>
+                <th scope="col">Signification</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+                <td>=</td>
+                <td>Egal</td>
+            </tr>
+            <tr>
+                <td>&lt;</td>
+                <td>Inférieur</td>
+            </tr>
+            <tr>
+                <td>&lt;=</td>
+                <td>Inférieur ou égal</td>
+            </tr>
+            <tr>
+                <td>&gt;</td>
+                <td>Supérieur</td>
+            </tr>
+            <tr>
+                <td>&gt;=</td>
+                <td>Supérieur ou égal</td>
+            </tr>
+            <tr>
+                <td>&lt;&gt; ou !=</td>
+                <td>Différent</td>
+            </tr>
+            <tr>
+                <td>&lt;=&gt;</td>
+                <td>Egal (valable pour NULL aussi) voir la <a href="https://dev.mysql.com/doc/refman/8.0/en/comparison-operators.html#operator_equal-to">documentation</a></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p class="mt-3">
+            On peut mettre plusieurs clauses de sélection, en les associant avec des opérateurs booléens.
+        </p>
+
+        <table class="table table-primary table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Opérateur</th>
+                <th scope="col">Symbole</th>
+                <th scope="col">Signification</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+                <td>AND</td>
+                <td>&&</td>
+                <td>Le ET implique que les clauses de restriction doivent toutes être vérifiées</td>
+            </tr>
+            <tr>
+                <td>OR</td>
+                <td>||</td>
+                <td>Le OU veut qu'au moins des clause soit vérifiée</td>
+            </tr>
+            <tr>
+                <td>XOR</td>
+                <td>XOR</td>
+                <td>Le OU EXCLUSIF vérifie qu'une clause est vérifiée et seulement une !</td>
+            </tr>
+            <tr>
+                <td>NOT</td>
+                <td>!</td>
+                <td>Le NON demande à ce que la clause ne soit pas. Il est aussi appelé opérateur d'inversion</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p class="mt-3 alert alert-danger">
+            <strong>ATTENTION</strong> : les opérateurs, aussi simples soient-ils, sont souvent source de confusion et d'erreurs.
+            Pensez à mettre des parenthèses pour bien regrouper les éléments aux conditions communes.
+        </p>
+
+        <p class="mt-3">
+            Par exemple :
+        </p>
+
+        <ul>
+            <li>Ce qui est rouge et vert, et ce qui est bleu : <kbd>(rouge ET vert) OU bleu</kbd></li>
+            <li>Ou ce qui est rouge, et soit vert, soit bleu : <kbd>rouge ET (vert OR blue)</kbd></li>
+        </ul>
+    </section>
+
+    <hr>
+
+    <section class="mt-5">
+        <h2 class="text-muted">Trier la sélection</h2>
+
+        <p class="mt-3">
+            Avoir les resultats que je souhaite c'est bien, mais si je voulais avoir un tri, un classement ou autre, la requête actuelle ne me suffit pas !
+            Comment faire si je veuc une liste de personne par ordre alphabétique ? Comment faire si je veux afficher le dernier film sorti ? Comment faire si je veux la liste des produits du moin chère au plus chère ?
+            <br>
+            En SQL on peut trier les données en fonction de critères choisis. Pour cela on utilise <strong>ORDER BY</strong>.
+        </p>
+
+        <pre class="bg-dark text-white"><code>
+    mysql> SELECT * FROM `une_table` ORDER BY `titre`;
+    +-----+----------------------------------------------------------------------+-----------------------+
+    | id  | titre                                                                | auteur                |
+    +-----+----------------------------------------------------------------------+-----------------------+
+    |  91 | Adventure of Sherlock Holmes' Smarter Brother, The                   | Maridel Olley         |
+    |  58 | And You Thought Your Parents Were Weird                              | Friedrich Brand-Hardy |
+    |  79 | Baader Meinhof Komplex, Der                                          | Derrik Luff           |
+    |  72 | Babes in Arms                                                        | Tatiania Lepere       |
+    |  13 | Ballad of a Soldier (Ballada o soldate)                              | Sammie Groome         |
+    |  69 | Beyond Enemy Lines (Framom främsta linjen)                           | Theo Gabbatiss        |
+    |  19 | Black Mirror                                                         | Rodina McLardie       |
+    |  99 | Blackmail                                                            | Bernadine Garrison    |
+    |   2 | Bride Wars                                                           | Klarrisa Klainer      |
+    |  27 | Brigham Young                                                        | Julietta Ricarde      |
+    |  12 | Cameraman, The                                                       | Mohammed Takle        |
+    |   9 | Caught                                                               | Vivyan Beardsley      |
+    |  24 | Cleanflix                                                            | Matthieu Amer         |
+    |  71 | Cottage Country                                                      | Rockey Fowgies        |
+    |  18 | Count Dracula (Nachts, wenn Dracula erwacht)                         | Lizbeth Flucker       |
+    |  89 | Darkest Night                                                        | Gwenette Bartholomieu |
+    |  81 | David and Lisa                                                       | Alessandra Trickey    |
+    |  90 | Deal of the Century                                                  | Davie Moan            |
+    |  37 | Departures (Okuribito)                                               | Netty Anersen         |
+    |  30 | Dodge City                                                           | Hilliard Scotting     |
+    |  36 | Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb | Lilia Rome            |
+    |  14 | Dream Lover                                                          | Elberta Beyn          |
+    | 100 | East Palace West Palace (Dong gong xi gong)                          | Tristan MacCarrick    |
+    |   8 | Egyptian, The                                                        | Janeta Stiffell       |
+    |  96 | False Trail (Jägarna 2)                                              | Elysia McLean         |
+    +-----+----------------------------------------------------------------------+-----------------------+
+    25 rows in set (0.00 sec)
+        </code></pre>
+
+        <p class="mt-3">
+            Ici j'ai choisi d'afficher l'ensemble des informations de la table trier dans l'ordre alphabétique des titres.
+            <br>
+            La syntaxe est simple, je passe, après le mot-clef, la colonne sur laquelle je souhaite effectuer le tri.
+            Si je n'ajoute rien il fera naturellement dans l'ordre croissant (ascendant) comme si je précisais <strong>ASC</strong>.
+            Pour faire le tri de façon decroissante (descendant) j'utiliserai <strong>DESC</strong>.
+        </p>
+    </section>
+
+    <hr>
+    
+    <section class="mt-5">
+        <h2 class="text-muted">Eviter les doublons</h2>
+    
+        <p class="mt-3">
+            Admettons maintenant que j'ai une liste avec plusieurs enregistrements identiques :
+        </p>
+
+        <pre class="bg-dark text-white"><code>
+    +----------------------------------------------------+
+    | titre                                              |
+    +----------------------------------------------------+
+    | Adventure of Sherlock Holmes' Smarter Brother, The |
+    | Adventure of Sherlock Holmes' Smarter Brother, The |
+    | Adventure of Sherlock Holmes' Smarter Brother, The |
+    | Adventure of Sherlock Holmes' Smarter Brother, The |
+    | Adventure of Sherlock Holmes' Smarter Brother, The |
+    | Adventure of Sherlock Holmes' Smarter Brother, The |
+    | Adventure of Sherlock Holmes' Smarter Brother, The |
+    | And You Thought Your Parents Were Weird            |
+    | Baader Meinhof Komplex, Der                        |
+    | Babes in Arms                                      |
+    | Ballad of a Soldier (Ballada o soldate)            |
+    | Beyond Enemy Lines (Framom främsta linjen)         |
+    | Black Mirror                                       |
+    | Blackmail                                          |
+    | Bride Wars                                         |
+    | Brigham Young                                      |
+    | Cameraman, The                                     |
+    | Caught                                             |
+    | Cleanflix                                          |
+    | Cottage Country                                    |
+    | Count Dracula (Nachts, wenn Dracula erwacht)       |
+    | Darkest Night                                      |
+    | David and Lisa                                     |
+    | Deal of the Century                                |
+    | Departures (Okuribito)                             |
+    +----------------------------------------------------+
+        </code></pre>
+
+        <p class="mt-3">
+            Comment faire pour n'avoir qu'une seule fois mon résultat ?
+            Dans ce cas <strong>DISTINCT</strong> vas nous aider :
+        </p>
+
+        <pre class="bg-dark text-white"><code>
+    mysql> SELECT DISTINCT titre FROM `une_table` ORDER BY `titre`;
+    +----------------------------------------------------------------------+
+    | titre                                                                |
+    +----------------------------------------------------------------------+
+    | Adventure of Sherlock Holmes' Smarter Brother, The                   |
+    | And You Thought Your Parents Were Weird                              |
+    | Baader Meinhof Komplex, Der                                          |
+    | Babes in Arms                                                        |
+    | Ballad of a Soldier (Ballada o soldate)                              |
+    | Beyond Enemy Lines (Framom främsta linjen)                           |
+    | Black Mirror                                                         |
+    | Blackmail                                                            |
+    | Bride Wars                                                           |
+    | Brigham Young                                                        |
+    | Cameraman, The                                                       |
+    | Caught                                                               |
+    | Cleanflix                                                            |
+    | Cottage Country                                                      |
+    | Count Dracula (Nachts, wenn Dracula erwacht)                         |
+    | Darkest Night                                                        |
+    | David and Lisa                                                       |
+    | Deal of the Century                                                  |
+    | Departures (Okuribito)                                               |
+    | Dodge City                                                           |
+    | Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb |
+    | Dream Lover                                                          |
+    | East Palace West Palace (Dong gong xi gong)                          |
+    | Egyptian, The                                                        |
+    | False Trail (Jägarna 2)                                              |
+    +----------------------------------------------------------------------+
+        </code></pre>
+
+    </section>
+
+    <hr>
+    
+    <section class="mt-5">
+        <h2 class="text-muted">Limiter le nombre de résultats</h2>
+    
+        <p class="mt-3">
+            Depuis le début de ce chapitre je triches un peu !
+            Pour ne pas à avoir à afficher trop de résultats, j'ai mis une limitation sur mes requêtes.
+            C'est pour ça qu'il n'y a que 25 resultats d'afficher sur mes requêtes.
+            <br>
+            La limitation se fait avec <strong>LIMIT</strong> ! Il nous permet de limiter le nombre de résultat :
+        </p>
+
+        <pre class="bg-dark text-white"><code>
+    mysql> SELECT DISTINCT titre FROM `une_table` LIMIT 0, 5;
+    +------------------------------------------------------+
+    | titre                                                |
+    +------------------------------------------------------+
+    | Snakes and Earrings (Hebi ni piasu)                  |
+    | Bride Wars                                           |
+    | Queen of Outer Space                                 |
+    | Ulzana's Raid                                        |
+    | TT3D: Closer to the Edge                             |
+    | Philadelphia                                         |
+    | Pitfall (Otoshiana)                                  |
+    | Egyptian, The                                        |
+    | Caught                                               |
+    | Whole Wide World, The                                |
+    | They Call Me Bruce? (a.k.a. A Fistful of Chopsticks) |
+    | Cameraman, The                                       |
+    | Ballad of a Soldier (Ballada o soldate)              |
+    | Dream Lover                                          |
+    | Itty Bitty Titty Committee                           |
+    | Mattei Affair, The (Il caso Mattei)                  |
+    | Ten Tall Men                                         |
+    | Count Dracula (Nachts, wenn Dracula erwacht)         |
+    | Black Mirror                                         |
+    | Fat, Sick & Nearly Dead 2                            |
+    | Nostalghia                                           |
+    | Wraith, The                                          |
+    | Girl in the Park, The                                |
+    | Cleanflix                                            |
+    | Pirates of the Caribbean: At World's End             |
+    +------------------------------------------------------+
+        </code></pre>
+
+        <p class="mt-3">
+            A la suite de LIMIT on saisi deux chiffres. Le premier servira à déterminer le point de départ (le décalage dans le tableau de résultat), le second le nombre de ligne que l'on souhaite voir s'afficher.
+            La décallage peut être omis ; dans ce cas il sera considéré comme zéro.
+        </p>
+
+        <pre class="line-numbers"><code class="language-php">-- La syntaxe
+SELECT `titre` FROM `une_table` LIMIT 25;
+
+-- Equivaut à
+SELECT `titre` FROM `une_table` LIMIT 0, 25;</code></pre>
     </section>
 
     <div class="row mt-5 mb-5">
