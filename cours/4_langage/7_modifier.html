@@ -16,16 +16,118 @@
     <hr>
 
     <section class="mt-5">
-        <h2 class="text-muted"></h2>
+        <h2 class="text-muted">Update</h2>
 
         <p class="mt-3">
+            Pour modifier les données qui sont en base on utilise <strong>UPDATE</strong>.
+            On doit lui stipuler plusieurs choses :
+        </p>
 
+        <ul>
+            <li>Le nom de la table sur laquelle on souhaite faire la modification</li>
+            <li>Les colonnes que l'on souhaite modifier et les nouvelles valeurs qu'elles prendront</li>
+            <li>Enfin on peut ajouter la clause WHERE pour déterminer la condition pour effectuer ce changement</li>
+        </ul>
+
+        <pre class="line-numbers"><code class="language-sql">UPDATE `une_table`
+SET `titre` = 'Un nouveau titre', `auteur` = 'Moi'
+WHERE `id` = 1;</code></pre>
+
+        <p class="mt-3">
+            Ici je modifierai le titre et l'auteur de l'enregistrement dont l'ID est 1.
         </p>
     </section>
 
+    <hr>
+
+    <section class="mt-5">
+        <h2 class="text-muted">Allez plus loin avec la clause WHERE et LIKE</h2>
+
+        <p class="mt-3">
+            Ce qu'il faut bien comprendre c'est que si on ne met pas la clause WHERE, tous les enregistrements seront modifiés.
+            Mais comment faire si par exemple, dans une base de films, j'ai tout ce qui concerne Star Wars, et que Disney rachète la licence ?
+            J'ai besoin de modifier tout mes enregistements ... Je ne vais quand même pas faire une requête pour chaque film, série et dessins-animés.
+            <br>
+            Pour pallier ce problème on a un nouvel opérateur : <strong>LIKE</strong>.
+            Il permet de faire des requêtes en exprimant ce qu'on pourrait traduire par : "qui contient".
+        </p>
+
+        <pre class="line-numbers"><code class="language-sql">UPDATE `film`
+SET `droit_auteur` = 'Disney'
+WHERE `titre` LIKE 'Star Wars :%'</code></pre>
+
+        <p class="mt-3">
+            Comme vous le voyez, j'ai utilisé <kbd>%</kbd> avec le LIKE.
+            C'est le <em>Joker</em>, qui sert à dire qu'à sa place on peut avoir n'importe quel caractère.
+        </p>
+
+        <ul>
+            <li>S'il est au début seulement, cela signifie que ce que l'on recherche finira par la chaine que l'on précise
+                à la suite.
+            </li>
+            <li>S'il est à la fin seulement, cela signifie que ce que l'on recherche commencera par la chaine qui le
+                précède.
+            </li>
+            <li>S'il est au début et à la fin, cela signifie que ce que l'on recherche contiendra la chaine entre les 2 modulos.</li>
+        </ul>
+    </section>
+
+    <hr>
+
+    <section class="mt-5">
+        <h2 class="text-muted">L'utilisation de IN</h2>
+
+        <p class="mt-3">
+            Maintenant que je n'aime que les films avec Harisson FORD, Scarlett JOHANSON, Chris PRATT, Diane KRUGER, Tom CRUISE, Amy ADAMS.
+            Si je souhaite faire une requête pour avoit la liste des films de ses acteurs je devrai écrire :
+        </p>
+
+        <pre class="line-numbers"><code class="language-sql">SELECT `titre`
+FROM `film`
+WHERE `acteur` = 'Harisson FORD'
+    OR `acteur` = 'Scarlett JOHANSON'
+    OR `acteur` = 'Chris PRATT'
+    OR `acteur` = 'Diane KRUGER'
+    OR `acteur` = 'Tom CRUISE'
+    OR `acteur` = 'Amy ADAMS';</code></pre>
+
+        <p class="mt-3">
+            L'opérateur IN permet d'écrire des choses plus simples et équivalentes :
+        </p>
+
+        <pre class="line-numbers"><code class="language-sql">SELECT `titre`
+FROM `film`
+WHERE `acteur` IN ('Harisson FORD', 'Scarlett JOHANSON', 'Chris PRATT', 'Diane KRUGER', 'Tom CRUISE', 'Amy ADAMS');</code></pre>
+    </section>
+
+    <hr>
+    
+    <section class="mt-5">
+        <h2 class="text-muted">Les intervalles</h2>
+    
+        <p class="mt-3">
+            Dernière chose, l'operateur <strong>BETWEEN</strong>.
+            Il permet de simplifier la recherche dans un intervalle.
+            Ainsi au lieu d'écrire :
+        </p>
+
+        <pre class="line-numbers"><code class="language-sql">SELECT *
+FROM `une_table`
+WHERE `date_naissance` <= '2009-03-23'
+AND `date_naissance` >= '2008-01-05';</code></pre>
+
+        <p class="mt-3">
+            On pourrait écrire :
+        </p>
+
+        <pre class="line-numbers"><code class="language-sql">SELECT *
+FROM `une_table`
+WHERE `date_naissance` BETWEEN '2009-03-23' AND '2008-01-05';</code></pre>
+    </section>
+    
     <div class="row mt-5 mb-5">
-        <a href="#" class="btn btn-outline-secondary col-auto mr-auto">Précédent</a>
-        <a href="#" class="btn btn-outline-primary col-auto">Suivant</a>
+        <a href="6_selectionner.html" class="btn btn-outline-secondary col-auto mr-auto">Précédent</a>
+        <a href="8_supprimer.html" class="btn btn-outline-primary col-auto">Suivant</a>
     </div>
 </main>
 
