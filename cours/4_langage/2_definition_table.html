@@ -29,7 +29,7 @@
     `id` INT NOT NULL,
     `titre` VARCHAR(50) NOT NULL
 )
-ENGINE = InnoBD;</code></pre>
+ENGINE = InnoDB;</code></pre>
 
         <p class="mt-3">
             Si on décortique la requête, la ligne 1 nous permet de lancer la création de la table.
@@ -37,7 +37,7 @@ ENGINE = InnoBD;</code></pre>
             Puis on finit par choisir un moteur.
             <br>
             Le moteur de la table détermine sa façon de fonctionner.
-            Il en existe 2, MyISAM et InnoBD.
+            Il en existe 2, MyISAM et InnoDB.
         </p>
 
         <ul>
@@ -56,7 +56,7 @@ ENGINE = InnoBD;</code></pre>
                 </ul>
             </li>
             <li>
-                <strong>InnoBD</strong> :
+                <strong>InnoDB</strong> :
                 <ul class="alert alert-success">
                     <li>Gère les transactions (on le verra plus tard)</li>
                     <li>Gère les clés étrangères et les contraintes d’intégrité</li>
@@ -71,7 +71,7 @@ ENGINE = InnoBD;</code></pre>
         </ul>
 
         <p class="mt-3">
-            Comme nous allons travailler avec les clefs étrangères, nous privilégierons le moteur <strong>InnoBD</strong>.
+            Comme nous allons travailler avec les clefs étrangères, nous privilégierons le moteur <strong>InnoDB</strong>.
         </p>
     </section>
 
